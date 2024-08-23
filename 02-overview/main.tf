@@ -2,13 +2,29 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      version = "~> 4.0"
     }
   }
 }
 
 provider "aws" {
   region = "us-east-1"
+}
+
+resource "aws_default_vpc" "default" {
+  force_destroy = true
+  tags = {
+    Name = "Default VPC"
+  }
+}
+
+resource "aws_default_subnet" "default_az1" {
+  availability_zone = "us-east-1a"
+  force_destroy     = true
+
+  tags = {
+    Name = "Default subnet for us-east-1a"
+  }
 }
 
 resource "aws_instance" "example" {
